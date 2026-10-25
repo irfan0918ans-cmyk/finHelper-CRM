@@ -1,3 +1,7 @@
 spring:
   application:
     name: finHelper
+  config:
+    import: optional:file:.env[.properties]
+  profiles:
+    active: dev
