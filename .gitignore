@@ -21,6 +21,7 @@ target/
 .env
 pom.xml
 .gitattributes
+.gitignore
 .mvn
 mvnw.cmd
 mvnw
