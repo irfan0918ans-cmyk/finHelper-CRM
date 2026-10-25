@@ -32,7 +32,6 @@ public class User {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Email
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
