@@ -20,4 +20,10 @@ public class ExceptionHandle {
                 .body(e.getMessage());
     }
 
+    @ExceptionHandler(LenderNotFoundException.class)
+    public ResponseEntity<?> handleLanderNotFoundException(LenderNotFoundException e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(e.getMessage());
+    }
+
 }

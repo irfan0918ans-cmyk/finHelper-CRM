@@ -29,6 +29,10 @@ public class User {
     @JoinColumn(name = "lender_id", nullable = false)
     private  Lender lender;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private User parent;
+
     @Column(nullable = false, length = 50)
     private String name;
 
