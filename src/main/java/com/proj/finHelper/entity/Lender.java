@@ -37,13 +37,13 @@ public class Lender {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
-    @Column(unique = true, length = 20)
+    @Column(unique = true, length = 30)
     private String gstNo;
 
     @Column(unique = true, length = 50)
-    private String rblLicenceNo;
+    private String rbiLicenceNo;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -53,7 +53,7 @@ public class Lender {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     private LocalDateTime deletedAt;
 

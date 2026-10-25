@@ -5,13 +5,15 @@ import com.proj.finHelper.DTO.LenderDTO.LenderResponseDTO;
 import com.proj.finHelper.entity.Lender;
 import com.proj.finHelper.repository.LenderRepository;
 import com.proj.finHelper.service.LenderService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.SecureRandom;
 
-@AllArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class LenderServiceImp implements LenderService {
 
     private final LenderRepository lenderRepository;
@@ -20,19 +22,19 @@ public class LenderServiceImp implements LenderService {
     private String generateLenderCode(){
         String code;
         do{
-            code = "LAN" + (100000 + random.nextInt(900000))
+            code = "LAN" + (100000 + random.nextInt(900000));
         }
-        while (lenderRepository.existByLenderCode(code));
+        while (lenderRepository.existsByLenderCode(code));
         return code;
     }
 
     @Override
     public LenderResponseDTO lenderRegistrationService(LenderRequestDTO lenderRequestDTO) {
-        if (lenderRequestDTO.getGstNo() != null && lenderRepository.existByGstNo(lenderRequestDTO.getGstNo())){
+        if (lenderRequestDTO.getGstNo() != null && lenderRepository.existsByGstNo(lenderRequestDTO.getGstNo())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"GST No. Already Registered");
         }
 
-        if (lenderRequestDTO.getRbiLicenceNo() != null && lenderRepository.existByRbiLicenceNo(lenderRequestDTO.getRbiLicenceNo())){
+        if (lenderRequestDTO.getRbiLicenceNo() != null && lenderRepository.existsByRbiLicenceNo(lenderRequestDTO.getRbiLicenceNo())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"RBL Licence No. Already Exist");
         }
 
@@ -40,7 +42,7 @@ public class LenderServiceImp implements LenderService {
         lender.setName(lenderRequestDTO.getName());
         lender.setType(lenderRequestDTO.getType());
         lender.setGstNo(lenderRequestDTO.getGstNo());
-        lender.setRblLicenceNo(lenderRequestDTO.getRbiLicenceNo());
+        lender.setRbiLicenceNo(lenderRequestDTO.getRbiLicenceNo());
         lender.setLenderCode(generateLenderCode());
         lenderRepository.save(lender);
 
