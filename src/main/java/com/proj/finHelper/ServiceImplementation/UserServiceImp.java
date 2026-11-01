@@ -1,5 +1,7 @@
 package com.proj.finHelper.ServiceImplementation;
 
+import com.proj.finHelper.DTO.UserDTO.LoginRequestDTO;
+import com.proj.finHelper.DTO.UserDTO.LoginResponseDTO;
 import com.proj.finHelper.DTO.UserDTO.SuperAdminRequestDTO;
 import com.proj.finHelper.DTO.UserDTO.UserResponseDTO;
 import com.proj.finHelper.entity.Lender;
@@ -10,6 +12,7 @@ import com.proj.finHelper.exception.LenderNotFoundException;
 import com.proj.finHelper.repository.LenderRepository;
 import com.proj.finHelper.repository.UserRepository;
 import com.proj.finHelper.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,5 +57,22 @@ public class UserServiceImp implements UserService {
         userRepository.save(user);
 
         return UserResponseDTO.toUserResponseDTO(user);
+    }
+
+    @Override
+    @Transactional
+    public LoginResponseDTO loginUser(LoginRequestDTO loginRequestDTO){
+        User user = userRepository.findByEmailAndIsDeletedFalse(loginRequestDTO.getEmail())
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid UserName or Password"));
+
+        if (!passwordEncoder.matches(loginRequestDTO.getPassword(),user.getPassword())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Invalid UserName or Password");
+        }
+
+        if (user.getStatus() != Status.ACTIVE || user.getLender().getStatus() != Status.ACTIVE){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account is Inactive");
+        }
+
+        return LoginResponseDTO.toLoginResponseDto(user);
     }
 }

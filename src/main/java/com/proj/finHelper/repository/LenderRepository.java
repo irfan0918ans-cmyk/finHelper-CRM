@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface LenderRepository extends JpaRepository<Lender, Integer> {
+
     boolean existsByLenderCode(String code);
     boolean existsByGstNo(String gstNo);
     boolean existsByRbiLicenceNo(String rbiLicenceNo);
