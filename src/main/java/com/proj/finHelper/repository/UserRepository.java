@@ -6,6 +6,7 @@ import com.proj.finHelper.enums.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,5 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByEmail(String email);
     boolean existsByLenderAndRole(Lender lender, Role role);
     Optional<User> findByEmailAndIsDeletedFalse(String email);
-
+    Optional<User> findByIdAndIsDeletedFalse(Integer id);
+    List<User> findByParentIdAndRoleAndIsDeletedFalse(Integer parentId, Role role);
 }
