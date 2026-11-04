@@ -8,5 +8,5 @@ import java.util.List;
 public interface AdminService {
 
     AdminCreateResponseDTO createAdminService(AdminCreateRequestDTO adminCreateRequestDTO);
-    List<AdminCreateResponseDTO> getAllAdmin(Integer superAdminId);
+    List<AdminCreateResponseDTO> getAllAdminService(Integer superAdminId);
 }
