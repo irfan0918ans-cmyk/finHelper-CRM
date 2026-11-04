@@ -61,10 +61,10 @@ public class AdminServiceImp implements AdminService {
 
     @Override
     public List<AdminCreateResponseDTO> getAllAdminService(Integer superAdminId) {
-        getActiveUserWithRole(superAdminId,Role.ADMIN);
+        getActiveUserWithRole(superAdminId,Role.SUPER_ADMIN);
         return userRepository.findByParentIdAndRoleAndIsDeletedFalse(superAdminId,Role.ADMIN)
                 .stream()
-                .map(AdminCreateResponseDTO::toAdminCreateResponseDTO)
+                .map((user -> AdminCreateResponseDTO.toAdminCreateResponseDTO(user)))
                 .toList();
     }
 
